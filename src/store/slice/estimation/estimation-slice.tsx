@@ -1,58 +1,49 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
+import { getEstimateAPI } from "../../../api/api";
+import { toast } from "react-toastify";
 
-type Estimation = {
-  id: string
-  title: string
-  sections: any[]
-  createdAt: string
-}
-
-const initialState: { isLoading: boolean; data: Estimation[]; error?: string } = {
+const data:any = {
   isLoading: false,
-  data: [],
-}
+  error: "",
+  message: null,
+  data: null,
+};
 
-import mockService from '../../../services/mockService'
-
-export const fetchEstimations = createAsyncThunk('estimations/fetch', async () => {
-  return await mockService.getEstimations()
-})
-
-export const createEstimationThunk = createAsyncThunk('estimations/create', async (payload: any) => {
-  return await mockService.createEstimation(payload)
-})
-
-export const updateEstimationThunk = createAsyncThunk('estimations/update', async ({ id, payload }: any) => {
-  return await mockService.updateEstimation(id, payload)
-})
-
-export const deleteEstimationThunk = createAsyncThunk('estimations/delete', async (id: string) => {
-  return await mockService.deleteEstimation(id)
-})
-
-const slice = createSlice({
-  name: 'estimations',
-  initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder.addCase(fetchEstimations.pending, (state) => {
-      state.isLoading = true
-    })
-    builder.addCase(fetchEstimations.fulfilled, (state, action) => {
-      state.isLoading = false
-      state.data = action.payload
-    })
-    builder.addCase(fetchEstimations.rejected, (state) => {
-      state.isLoading = false
-    })
-
-    builder.addCase(createEstimationThunk.fulfilled, (state, action) => {
-      state.data.push(action.payload)
-    })
-    builder.addCase(updateEstimationThunk.fulfilled, (state, action) => {
-      state.data = state.data.map((p) => (p.id === action.payload.id ? action.payload : p))
-    })
+const estimateSlice = createSlice({
+  name: "estimate",
+  initialState: data,
+  reducers: {
+    estimateSlice(state) {
+      state.isLoading = false;
+    },
+    estimateSliceSuccess(state, action) {
+      state.isLoading = false;
+      state.data = action.payload;
+    },
+    estimateSliceFailure(state, action) {
+      state.isLoading = false;
+      state.message = action.payload;
+    },
+    estimateSliceReset(state) {
+      state.isLoading = false;
+      state.message = null;
+      state.data = null;
+      state.error = "";
+    },
   },
-})
+});
 
-export default slice.reducer
+export const estimateListHandler = (data: any) => async (dispatch: any) => {
+  try {
+    dispatch(estimateListAction.estimateSlice());
+    const response: any = await getEstimateAPI(data); 
+    dispatch(estimateListAction.estimateSliceSuccess(response));
+    return response;
+  } catch (e: any) {
+    dispatch(estimateListAction.estimateSliceFailure(e?.response?.data));
+    toast.error(e?.response?.data?.msg);
+    throw e;
+  }
+};
+export default estimateSlice.reducer;
+export const estimateListAction = estimateSlice.actions;

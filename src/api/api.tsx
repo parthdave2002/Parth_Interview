@@ -44,3 +44,28 @@ export const updateProjectAPI = (id: number | string, data: any) => {
 export const deleteProjectAPI = (id: number | string) => {
   return Http.delete(`projects/${id}`);
 };
+
+
+
+// Estimate Module
+
+export const getEstimateAPI = (params?: any) => {
+  return Http.get("estimate", params);
+};
+
+
+export const getEstimateDetailAPI = (id: number | string) => {
+  return Http.get(`estimate/${id}`);
+};
+
+export const createEstimateAPI = (data: any) => {
+  return Http.post("estimate", data);
+};
+
+export const updateEstimateAPI = (id: number | string, data: any) => {
+  return Http.put(`estimate/${id}`, data);
+};
+
+export const deleteEstimateAPI = (id: number | string) => {
+  return Http.delete(`estimate/${id}`);
+};

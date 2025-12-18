@@ -1,28 +1,12 @@
 import React, { useState, useMemo } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { useNavigate, useParams } from 'react-router-dom'
+import { MdAdd } from 'react-icons/md'
 import { useAppDispatch } from '../../store/hooks'
-import { createEstimationThunk } from '../../store/slice/estimation/estimation-slice'
+import type { Item, Section } from '../../type/types'
+import { createestimateHandler } from '../../store/slice/estimation/estimation-add-slice'
 import calculateEstimationTotal from '../../utils/calculateEstimationTotal'
 import Inputbox from '../../components/common/input/Inputbox'
-import { MdAdd } from 'react-icons/md'
-
-type Item = {
-  id: string
-  title: string
-  description?: string
-  unit?: string
-  quantity: number
-  price: number
-  margin: number
-  total: number
-}
-
-type Section = {
-  id: string
-  title: string
-  items: Item[]
-}
 
 const emptyItem = (): Item => ({ id: uuidv4(), title: '', description: '', unit: '', quantity: 1, price: 0, margin: 0, total: 0 })
 const emptySection = (): Section => ({ id: uuidv4(), title: 'New Section', items: [emptyItem()] })
@@ -65,7 +49,7 @@ const EstimationForm: React.FC = () => {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()
-    await dispatch(createEstimationThunk({ title: id ? `Estimate ${id}` : 'New Estimate', sections }))
+    await dispatch(createestimateHandler({ title: id ? `Estimate ${id}` : 'New Estimate', sections }))
     navigate('/estimations')
   }
 
@@ -112,7 +96,7 @@ const EstimationForm: React.FC = () => {
                 {section.items.map((item:any) => (
                   <div key={item.id} className="grid grid-cols-1 md:grid-cols-8 gap-2 items-end pt-3">
                     <div className="md:col-span-2">
-                      <Inputbox type='text' id={`item-${item.id}-title`} name={`item-${item.id}-title`} placeholder="Item Name"  onChange={(e:any) => updateItem(section.id, item.id, { title: e.target.value })}/>
+                      <Inputbox type='text' id={`item-${item.id}-title`} value={item.title} name={`item-${item.id}-title`} placeholder="Item Name"  onChange={(e:any) => updateItem(section.id, item.id, { title: e.target.value })}/>
                     </div>
                     <div>
                       <Inputbox type='text' id={`item-${item.id}-desc`} name={`item-${item.id}-desc`} placeholder="Item Description"  onChange={(e:any) => updateItem(section.id, item.id, { description: e.target.value })}/>
@@ -145,18 +129,18 @@ const EstimationForm: React.FC = () => {
 
         {/* Summary card */}
         <div className="md:col-span-1 flex flex-end justify-end mt-6">
-          <div className="bg-white p-4 rounded-2xl shadow">
-            <div className="flex items-center justify-between mb-2">
-              <div className="text-sm text-gray-500">Sub Total</div>
-              <div className="font-medium">${sections.reduce((s, sec) => s + sec.items.reduce((itS, it) => itS + it.quantity * it.price, 0), 0).toFixed(2)}</div>
+          <div className="bg-white  w-[25rem]  p-4 rounded-2xl shadow">
+            <div className="flex items-center justify-between mb-2 border-b border-gray-400 pb-2">
+              <div className="text-sm text-gray-700">Sub Total</div>
+              <div className="font-medium text-gray-700">${sections.reduce((s, sec) => s + sec.items.reduce((itS, it) => itS + it.quantity * it.price, 0), 0).toFixed(2)}</div>
             </div>
-            <div className="flex items-center justify-between mb-2">
-              <div className="text-sm text-gray-500">Total Margin</div>
-              <div className="font-medium">${sections.reduce((s, sec) => s + sec.items.reduce((itS, it) => itS + (it.quantity * it.price * (it.margin || 0)) / 100, 0), 0).toFixed(2)}</div>
+            <div className="flex items-center justify-between mb-2 border-b border-gray-400 pb-2">
+              <div className="text-sm  text-gray-700">Total Margin</div>
+              <div className="font-medium  text-gray-700">${sections.reduce((s, sec) => s + sec.items.reduce((itS, it) => itS + (it.quantity * it.price * (it.margin || 0)) / 100, 0), 0).toFixed(2)}</div>
             </div>
-            <hr className="my-3" />
+       
             <div className="flex items-center justify-between">
-              <div className="text-lg font-semibold">Total Amount</div>
+              <div className="text-lg ">Total Amount</div>
               <div className="text-2xl font-bold">${grandTotal.toFixed(2)}</div>
             </div>
           </div>

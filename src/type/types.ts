@@ -12,6 +12,7 @@ export interface InputProps {
     className ?: string;
     max ?: string;
     disabled?: boolean;
+    value?: string | number;
     onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -54,4 +55,21 @@ export interface SelectInputProps {
     onChange?: (selectedOption: Option | null) => void;
     value?: Option | null;
     className?: string;
+}
+
+export interface Item {
+  id: string
+  title: string
+  description?: string
+  unit?: string
+  quantity: number
+  price: number
+  margin: number
+  total: number
+}
+
+export interface Section  {
+  id: string
+  title: string
+  items: Item[]
 }

@@ -14,7 +14,7 @@ const AdminLayout: React.FC = () => {
       <ExampleNavbar toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
       <div>
         <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
-        <main className={`flex-1 p-6 mt-16 bg-gray-100  rounded-tl-lg transition-all duration-200 ${isSidebarOpen ? 'md:ml-64' : 'md:ml-20'}`}>  <Outlet /></main>
+        <main className={`flex-1 p-6 mt-16 bg-gray-100  min-h-screen rounded-tl-lg transition-all duration-200 ${isSidebarOpen ? 'md:ml-64' : 'md:ml-20'}`}>  <Outlet /></main>
       </div>
     </>
   )

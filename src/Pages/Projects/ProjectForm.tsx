@@ -9,12 +9,21 @@ import Selectinput from '../../components/common/input/selectInpu'
 import { isCustomeroption, isStaffoption, isStatusoption } from '../../constants/constant';
 import { createProjectHandler, projectAddAction } from '../../store/slice/project/project-add-slice';
 import { projectUpdateAction, updateProjectHandler } from '../../store/slice/project/project-update-slice';
+import { projectDetailHandler } from '../../store/slice/project/project-details-slice';
 
 type FormValues = {
   ref: string
   name: string
   email: string
-  customer?: string
+  customer?: string;
+  projectNumber: string
+  area?: string;
+  address?: string;
+  dueDate: string;
+  contact?: string;
+  manager?: string;
+  staff?: string;
+  status?: string;
 } 
 
   const initialValues: FormValues = {
@@ -22,14 +31,48 @@ type FormValues = {
     name: '',
     email:'',
     customer: '',
+    projectNumber: '',
+    area: '',
+    address: '',
+    dueDate: '',
+    contact: '',
+    manager: '',
+    staff: '',
+    status: '',
   } 
 
 const ProjectForm: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { id } = useParams()
-    const { data: projectAdd = [] } = useAppSelector((s) => s.projectAdd)
-    const { data: projectUpdate = [] } = useAppSelector((s) => s.projectUpdate)
+  const { data: projectAdd = [] } = useAppSelector((s) => s.projectAdd)
+  const { data: projectUpdate = [] } = useAppSelector((s) => s.projectUpdate)
+  const { data: projectDetails } = useAppSelector((s) => s.projectGetById);
+
+  useEffect(() => {
+  if (id) {
+    dispatch(projectDetailHandler(id));
+  }
+}, [id]);
+
+  useEffect(() => {
+    if (id && projectDetails) {
+      validation.setValues({
+        ref: projectDetails.ref || '',
+        name: projectDetails.name || '',
+        email: projectDetails.email || '',
+        customer: projectDetails.customer || '',
+        projectNumber: projectDetails.projectNumber || '',
+        area: projectDetails.area || '',
+        address: projectDetails.address || '',
+        dueDate: projectDetails.dueDate || '',
+        contact: projectDetails.contact || '',
+        manager: projectDetails.manager || '',
+        staff: projectDetails.staff || '',
+        status: projectDetails.status || '',
+      });
+    }
+  }, [projectDetails]);
 
   const validation = useFormik({ 
     enableReinitialize: true,

@@ -1,19 +1,19 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "username": "Parth",
       "email": "parth@gmail.com",
       "password": "parth123"
     },
     {
-      "id": 2,
+      "id": "2",
       "username": "Rahul",
       "email": "rahul@gmail.com",
       "password": "rahul123"
     },
     {
-      "id": 3,
+      "id": "3",
       "username": "Zuta Memor",
       "email": "Test@agrogenie.com",
       "password": "Admin@123",
@@ -86,14 +86,24 @@
       "ref": "100000000000",
       "name": "1000000000",
       "email": "daveparth2604@gmail.com",
-      "customer": "Michael Jones",
-      "contact": "1000000000",
-      "address": "1000000000",
-      "area": "1000000000",
+      "customer": "Olivia Martin",
       "projectNumber": "1000000000",
-      "manager": "1000000000",
+      "area": "Ahm",
+      "address": "1000000000",
       "dueDate": "2025-12-20",
-      "staff": "Miral Patel",
+      "contact": "1000000000",
+      "manager": "Test User",
+      "staff": "Abhi Patel",
+      "status": "active",
+      "id": "e7b7"
+    }
+  ],
+  "estimate": [
+     {
+      "version": "100000000000",
+      "project": "1000000000",
+      "customer": "Olivia Martin",
+      "dueDate": "2025-12-20",
       "status": "active",
       "id": "e7b7"
     }

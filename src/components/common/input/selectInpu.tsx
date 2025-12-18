@@ -29,7 +29,7 @@ const Selectinput : FC<SelectInputProps> = ({ name,  label,  required, placehold
                   options={options}
                   isClearable={true}
               />
-              {validation?.touched[name] && validation?.errors[name] && (  <FormFeedback type="invalid" className="text-Red text-sm mt-1 block" > {validation.errors[name] as string}</FormFeedback>)}
+              {validation?.touched[name] && validation?.errors[name] && (  <FormFeedback type="invalid" className="text-red-700 text-sm mt-1 block" > {validation.errors[name] as string}</FormFeedback>)}
           </div>
       </div>
   )

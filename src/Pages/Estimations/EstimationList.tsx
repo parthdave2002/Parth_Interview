@@ -1,18 +1,25 @@
 import React, { useMemo, useState, useCallback } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-
 import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { fetchEstimations, deleteEstimationThunk } from '../../store/slice/estimation/estimation-slice'
-import BreadcrumbComponent from '../../components/common/breadcrumb/Breadcrumd'
+import { estimateListHandler } from '../../store/slice/estimation/estimation-slice'
+import BreadcrumbComponent from '../../components/common/breadcrumb/Breadcrumd';
+import TableComponent from '../../components/common/table/Table'
+import { Button } from 'flowbite-react'
+import { t } from 'i18next'
+import { deleteestimateHandler } from '../../store/slice/estimation/estimation-delete-slice'
 
 const EstimationList: React.FC = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate();
-  const { data: estimations } = useAppSelector((s) => s.estimations)
+  const { data: estimations = [] } = useAppSelector((s) => s.estimations)
 
   useEffect(() => {
-    dispatch(fetchEstimations())
+    let reqUser = {
+      page: 1,
+      limit: 10,
+    }
+    dispatch(estimateListHandler(reqUser))
   }, [dispatch])
 
 
@@ -27,7 +34,7 @@ const resetFilters = useCallback(() => {
     }, [])
   
     const filtered = useMemo(() => {
-      return estimations.filter((p: any) => {
+      return ( estimations || []).filter((p: any) => {
         if (status !== 'all' && p.status !== status) return false
         // dateRange simple check: last 7 days, 30 days etc
         if (dateRange !== 'all' && p.createdAt) {
@@ -50,41 +57,38 @@ const resetFilters = useCallback(() => {
   
   
     const OpenAddModel = useCallback(() => {
-    navigate("/estimations/new")
+    navigate("/estimations/add")
   }, [navigate])
+
+  const Deletecall = useCallback((id: string) => {
+    dispatch(deleteestimateHandler(id))
+  }, [dispatch])
+
+  const estimateColumns = useMemo(() => [
+    { key: "version", label: t('version').toUpperCase() },
+    { key: 'project', label: t('project').toUpperCase() },
+    { key: 'customer', label: t('client').toUpperCase() },
+    { key: 'dueDate', label: t('created date').toUpperCase() },
+    { key: 'modified', label: t('last modified').toUpperCase() },
+    { key: 'status', label: t('status').toUpperCase(), render: (row: any) => (<div className='bg-green-700 text-white px-4 rounded-xl'>{row?.status}</div>) },
+    {
+      key: 'action', label: t('action').toUpperCase(), render: (row: any) => (
+        <div className='flex'>
+          <Button className="ml-2 text-gray-800" size="sm" onClick={() => navigate(`/projects/${row.id}`)}>{t('edit')}</Button>
+          <Button className="ml-2" size="sm" color="failure" onClick={() => Deletecall(row?.id)}>{t('delete')}</Button>
+        </div>)
+    },
+  ], [t]);
 
   return (
     <div>
-      {/* <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Estimations</h1>
-        <Link to="/estimations/new" className="bg-blue-600 text-white px-3 py-2 rounded">New Estimation</Link>
-      </div> */}
-
-      <BreadcrumbComponent  Name="Estimations"  isOpenAddModel= {OpenAddModel}  resetFilters={resetFilters} dateRange={dateRange} setDateRange={setDateRange} setStatus={setStatus} />
-
-      <div className="mt-4 bg-white rounded shadow overflow-auto">
-        <table className="w-full table-auto">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="text-left p-2">Title</th>
-              <th className="text-left p-2">Created At</th>
-              <th className="text-left p-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {estimations.map((e: any) => (
-              <tr key={e.id} className="border-t">
-                <td className="p-2">{e.title}</td>
-                <td className="p-2">{e.createdAt}</td>
-                <td className="p-2">
-                  <Link to={`/estimations/${e.id}/edit`} className="text-blue-600 mr-2">Edit</Link>
-                  <button onClick={async () => { await dispatch(deleteEstimationThunk(e.id)); dispatch(fetchEstimations()) }} className="text-red-600">Delete</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <Link to="/estimations/add" className="bg-blue-600 text-white px-3 py-2 rounded">New Estimation</Link>
       </div>
+
+      {/* <BreadcrumbComponent  Name="Estimations"  isOpenAddModel= {OpenAddModel}  resetFilters={resetFilters} dateRange={dateRange} setDateRange={setDateRange} setStatus={setStatus} /> */}
+      <TableComponent columns={estimateColumns} data={filtered || []} />
     </div>
   )
 }
