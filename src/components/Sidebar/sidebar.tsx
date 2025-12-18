@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate, useLocation } from 'react-router-dom';
 import { MdDashboard, MdDescription } from 'react-icons/md'
 import { AiOutlineProject } from 'react-icons/ai'
@@ -8,16 +9,18 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, setIsOpen }) => {
     const Navigate = useNavigate();
     const location = useLocation();
 
-    // Menu for admin layout
-    const menu = [
-        { name: 'Dashboard', path: '/dashboard', icon: <MdDashboard size={18} /> },
-        { name: 'Projects', path: '/projects', icon: <AiOutlineProject size={18} /> },
-        { name: 'Estimations', path: '/estimations', icon: <MdDescription size={18} /> },
-    ]
+    const { t } = useTranslation();
 
-    const handleNavigate = (path: string) => {
+    // Menu for admin layout
+    const menu = useMemo(() => [
+        { name: t('dashboard'), path: '/dashboard', icon: <MdDashboard size={18} /> },
+        { name: t('projects'), path: '/projects', icon: <AiOutlineProject size={18} /> },
+        { name: t('estimations'), path: '/estimations', icon: <MdDescription size={18} /> },
+    ], [t])
+
+    const handleNavigate = useCallback((path: string) => {
         Navigate(path)
-    }
+    }, [Navigate])
 
     return (
         <>
@@ -52,4 +55,4 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, setIsOpen }) => {
     )
 }
 
-export default Sidebar
+export default React.memo(Sidebar)

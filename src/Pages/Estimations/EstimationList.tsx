@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useCallback } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { useEffect } from 'react'
@@ -20,11 +20,11 @@ const EstimationList: React.FC = () => {
     const [dateRange, setDateRange] = useState<string>('all')
     const [status, setStatus] = useState<string>('all')
 
-    const resetFilters = () => {
+const resetFilters = useCallback(() => {
       setFilterBy('all')
       setDateRange('all')
       setStatus('all')
-    }
+    }, [])
   
     const filtered = useMemo(() => {
       return estimations.filter((p: any) => {
@@ -48,10 +48,10 @@ const EstimationList: React.FC = () => {
       })
     }, [estimations, status, dateRange, filterBy])
   
-
-    const OpenAddModel = () => {
+  
+    const OpenAddModel = useCallback(() => {
     navigate("/estimations/new")
-  }
+  }, [navigate])
 
   return (
     <div>

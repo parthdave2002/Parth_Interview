@@ -1,47 +1,53 @@
 
+import { Suspense, lazy } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import SigninPage from './Pages/Auth/signin'
-import SignupPage from './Pages/Auth/signup'
-import ForgotPassword from './Pages/Auth/forgot-password'
-import AdminLayout from './components/Layout/AdminLayout'
-import ProtectedRoute from './components/Layout/ProtectedRoute'
-import Dashboard from './Pages/Dashboard/Dashboard'
-import ProjectList from './Pages/Projects/ProjectList'
-import EstimationList from './Pages/Estimations/EstimationList'
-import EstimationForm from './Pages/Estimations/EstimationForm'
-import ProjectForm from './Pages/Projects/ProjectForm'
-import ToastMessage from './components/common/toastMessage/ToastMessage'
+
+const ProtectedRoute = lazy(() => import('./components/Layout/ProtectedRoute'))
+
+// Lazy load pages and heavy components
+const SigninPage = lazy(() => import('./Pages/Auth/signin'))
+const SignupPage = lazy(() => import('./Pages/Auth/signup'))
+const ForgotPassword = lazy(() => import('./Pages/Auth/forgot-password'))
+const AdminLayout = lazy(() => import('./components/Layout/AdminLayout'))
+const Dashboard = lazy(() => import('./Pages/Dashboard/Dashboard'))
+const ProjectList = lazy(() => import('./Pages/Projects/ProjectList'))
+const EstimationList = lazy(() => import('./Pages/Estimations/EstimationList'))
+const EstimationForm = lazy(() => import('./Pages/Estimations/EstimationForm'))
+const ProjectForm = lazy(() => import('./Pages/Projects/ProjectForm'))
+const ToastMessage = lazy(() => import('./components/common/toastMessage/ToastMessage'))
 
 function App() {
   return (
     <>
       <Router>
-        <Routes>
-          <Route path="/" element={<Navigate to="/login" replace />} />
-          <Route path="/login" element={<SigninPage />} />
-          <Route path="/register" element={<SignupPage />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Suspense fallback={<div className="p-6">Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<Navigate to="/login" replace />} />
+            <Route path="/login" element={<SigninPage />} />
+            <Route path="/register" element={<SignupPage />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
 
-          {/* Protected admin routes */}
-          <Route
-            element={
-              <ProtectedRoute>
-                <AdminLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/projects" element={<ProjectList />} />
-            <Route path="/projects/add" element={<ProjectForm />} />
-            <Route path="/projects/:id" element={<ProjectForm />} />
-            <Route path="/estimations" element={<EstimationList />} />
-            <Route path="/estimations/add" element={<EstimationForm />} />
-            <Route path="/estimations/:id" element={<EstimationForm />} />
-          </Route>
-        </Routes>
+            {/* Protected admin routes */}
+            <Route
+              element={
+                <ProtectedRoute>
+                  <AdminLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/projects" element={<ProjectList />} />
+              <Route path="/projects/add" element={<ProjectForm />} />
+              <Route path="/projects/:id" element={<ProjectForm />} />
+              <Route path="/estimations" element={<EstimationList />} />
+              <Route path="/estimations/add" element={<EstimationForm />} />
+              <Route path="/estimations/:id" element={<EstimationForm />} />
+            </Route>
+          </Routes>
+        </Suspense>
       </Router>
 
-      <ToastMessage />
+      <Suspense fallback={null}><ToastMessage /></Suspense>
     </>
   )
 }

@@ -1,34 +1,37 @@
-import React from 'react'
+import React, { use, useEffect } from 'react'
 import {  useNavigate, useParams } from 'react-router-dom'
 import { Form } from "reactstrap";
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import { useAppDispatch } from '../../store/hooks'
-// import { createProjectThunk, updateProjectThunk } from '../../store/slice/project/project-slice'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import Inputbox from '../../components/common/input/Inputbox'
+import Selectinput from '../../components/common/input/selectInpu' 
+import { isCustomeroption, isStaffoption, isStatusoption } from '../../constants/constant';
+import { createProjectHandler, projectAddAction } from '../../store/slice/project/project-add-slice';
+import { projectUpdateAction, updateProjectHandler } from '../../store/slice/project/project-update-slice';
 
 type FormValues = {
   ref: string
   name: string
-  password: string
   email: string
-  terms?: boolean
-}
+  customer?: string
+} 
 
   const initialValues: FormValues = {
     ref: '',
     name: '',
-    password: '',
     email:'',
-    terms: false,
-  }
+    customer: '',
+  } 
 
 const ProjectForm: React.FC = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { id } = useParams()
-  const dispatch = useAppDispatch()
+    const { data: projectAdd = [] } = useAppSelector((s) => s.projectAdd)
+    const { data: projectUpdate = [] } = useAppSelector((s) => s.projectUpdate)
 
-  const validation = useFormik({
+  const validation = useFormik({ 
     enableReinitialize: true,
     initialValues: initialValues,
 
@@ -47,27 +50,34 @@ const ProjectForm: React.FC = () => {
     }),
 
     onSubmit: (values) => {
-      // if (id) {
-      //   dispatch(updateProjectThunk(values))
-      // } else {
-      //   dispatch(createProjectThunk(values))
-      // }
-      console.log("Form Values", values);
+      if (id) {
+        dispatch(updateProjectHandler(id, values))
+      } else {
+        dispatch(createProjectHandler(values))
+      }
     },
-
-    // navigate('/projects')
   });
 
   const Closecall = () => {
     navigate('/projects')
   }
 
+  useEffect(() => {
+    if (projectAdd || projectUpdate) {
+       navigate('/projects');
+       dispatch(projectAddAction.createProjectReset());
+        dispatch(projectUpdateAction.updateProjectReset());
+    }
+  }, [projectAdd, projectUpdate])
+
   return (
     <div className="">
       <h1 className="text-xl font-semibold mb-4">{id ? 'Edit' : ' Add New'} Project</h1>
       <Form onSubmit={validation.handleSubmit} className="space-y-4 bg-gray-50 p-4 rounded-xl shadow-md">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <Inputbox  id="name" name="name" label="Customer"  required={true} placeholder="Enter project type" type="text" validation={validation} />
+          
+          <Selectinput id="customer" name="customer" label="Customer" options={isCustomeroption} placeholder="Select Customer...." validation={validation} />
+        
           <Inputbox  id="ref" name="ref"  label="Reference Number"  required={true} placeholder="Enter reference number" type="text" validation={validation} />
           <Inputbox  id="name" name="name" label="Project Name"  required={true} placeholder="Enter project name" type="text" validation={validation} />
         </div>
@@ -84,8 +94,8 @@ const ProjectForm: React.FC = () => {
         </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 ">
-          <Inputbox id="staff" name="staff" label="Staff" required={true} placeholder="Select project staff" type="text" validation={validation} />
-          <Inputbox id="status" name="status" label="Status" required={true} placeholder="Enter your contact" type="text" validation={validation} />
+          <Selectinput id="staff" name="staff" label="Staff" options={isStaffoption} placeholder="Select Staff...." validation={validation} />
+          <Selectinput id="status" name="status" label="Status" options={isStatusoption} placeholder="Select Status...." validation={validation} />
           <Inputbox id="email" name="email" label="Email" required={true} placeholder="Select project manager" type="text" validation={validation} />
         </div>
         

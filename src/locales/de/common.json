@@ -1,0 +1,54 @@
+{
+  "welcome": "Willkommen",
+  "dashboard": "Dashboard",
+  "projects": "Projekte",
+  "estimations": "Schätzungen",
+  "login": "Anmelden",
+  "register": "Registrieren",
+
+  "total_users": "Gesamtbenutzer",
+  "total_orders": "Gesamtaufträge",
+  "total_sales": "Gesamtumsatz",
+  "total_pending": "Ausstehend",
+
+  "change_up_from_yesterday": "{{percent}} Im Vergleich zu gestern gestiegen",
+  "change_up_from_past_week": "{{percent}} Im Vergleich zur letzten Woche gestiegen",
+  "change_down_from_yesterday": "{{percent}} Im Vergleich zu gestern gesunken",
+
+  "sales_details": "Verkaufsdetails",
+  "filter_today": "Heute",
+  "filter_last_7_day": "Letzte 7 Tage",
+  "filter_last_month": "Letzter Monat",
+  "filter_last_3_month": "Letzte 3 Monate",
+  "filter_all": "Alle",
+  "export_pdf": "Als PDF exportieren",
+  "export_csv": "Als CSV exportieren",
+  "no_data_selected_range": "Keine Daten für den ausgewählten Bereich",
+
+  "search": "Suche",
+  "profile": "Profil",
+  "log_out": "Abmelden",
+
+  "filter_by": "Filtern nach",
+  "date": "Datum",
+  "hide_columns": "Spalten ausblenden",
+  "status": "Status",
+  "reset_filters": "Filter zurücksetzen",
+  "add": "Hinzufügen",
+
+  "customer": "Kunde",
+  "ref_number": "Referenznummer",
+  "project_reference": "Projektreferenz",
+  "project_location": "Projektstandort",
+  "action": "Aktion",
+  "edit": "Bearbeiten",
+  "delete": "Löschen",
+
+  "language": {
+    "en": "Englisch",
+    "fr": "Französisch",
+    "es": "Spanisch",
+    "de": "Deutsch",
+    "hi": "Hindi"
+  }
+}

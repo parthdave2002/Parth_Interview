@@ -2,7 +2,11 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import loginReducer from './slice/Auth/login-slice'
 import signupReducer from './slice/Auth/signup-slice'
 import projectsReducer from './slice/project/project-slice'
+import projectAddReducer from './slice/project/project-add-slice'
+import projectDeleteReducer from './slice/project/project-delete-slice'
+import projectUpdateReducer from './slice/project/project-update-slice'
 import estimationsReducer from './slice/estimation/estimation-slice'
+import dashboardReducer from './slice/dashboard/dashboard-slice'
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
@@ -10,6 +14,10 @@ const rootReducer = combineReducers({
   login: loginReducer,
   signup : signupReducer,
   projects: projectsReducer,
+  projectAdd: projectAddReducer,
+  projectDelete: projectDeleteReducer,
+  projectUpdate: projectUpdateReducer,
+  dashboard : dashboardReducer,
   estimations: estimationsReducer,
 })
 

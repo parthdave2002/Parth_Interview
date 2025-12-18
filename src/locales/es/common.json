@@ -1,0 +1,54 @@
+{
+  "welcome": "Bienvenido",
+  "dashboard": "Tablero",
+  "projects": "Proyectos",
+  "estimations": "Estimaciones",
+  "login": "Iniciar sesión",
+  "register": "Registrar",
+
+  "total_users": "Usuarios totales",
+  "total_orders": "Pedidos totales",
+  "total_sales": "Ventas totales",
+  "total_pending": "Pendientes",
+
+  "change_up_from_yesterday": "{{percent}} Incremento respecto a ayer",
+  "change_up_from_past_week": "{{percent}} Incremento respecto a la semana pasada",
+  "change_down_from_yesterday": "{{percent}} Disminución respecto a ayer",
+
+  "sales_details": "Detalles de ventas",
+  "filter_today": "Hoy",
+  "filter_last_7_day": "Últimos 7 días",
+  "filter_last_month": "Mes pasado",
+  "filter_last_3_month": "Últimos 3 meses",
+  "filter_all": "Todo",
+  "export_pdf": "Exportar PDF",
+  "export_csv": "Exportar CSV",
+  "no_data_selected_range": "No hay datos para el rango seleccionado",
+
+  "search": "Buscar",
+  "profile": "Perfil",
+  "log_out": "Cerrar sesión",
+
+  "filter_by": "Filtrar por",
+  "date": "Fecha",
+  "hide_columns": "Ocultar columnas",
+  "status": "Estado",
+  "reset_filters": "Restablecer filtros",
+  "add": "Agregar",
+
+  "customer": "Cliente",
+  "ref_number": "Nº de referencia",
+  "project_reference": "Referencia del proyecto",
+  "project_location": "Ubicación del proyecto",
+  "action": "Acción",
+  "edit": "Editar",
+  "delete": "Eliminar",
+
+  "language": {
+    "en": "Inglés",
+    "fr": "Francés",
+    "es": "Español",
+    "de": "Alemán",
+    "hi": "Hindi"
+  }
+}

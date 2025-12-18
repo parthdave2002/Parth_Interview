@@ -4,5 +4,51 @@
   "projects": "परियोजनाएँ",
   "estimations": "अनुमान",
   "login": "लॉगिन",
-  "register": "रजिस्टर"
+  "register": "रजिस्टर",
+
+  "total_users": "कुल उपयोगकर्ता",
+  "total_orders": "कुल आदेश",
+  "total_sales": "कुल बिक्री",
+  "total_pending": "कुल अवशेष",
+
+  "change_up_from_yesterday": "{{percent}} कल की तुलना में बढ़ गया",
+  "change_up_from_past_week": "{{percent}} पिछले सप्ताह की तुलना में बढ़ा",
+  "change_down_from_yesterday": "{{percent}} कल की तुलना में घटा",
+
+  "sales_details": "बिक्री विवरण",
+  "filter_today": "आज",
+  "filter_last_7_day": "पिछले 7 दिन",
+  "filter_last_month": "पिछले महीने",
+  "filter_last_3_month": "पिछले 3 महीने",
+  "filter_all": "सभी",
+  "export_pdf": "PDF एक्सपोर्ट",
+  "export_csv": "CSV एक्सपोर्ट",
+  "no_data_selected_range": "चयनित रेंज के लिए कोई डेटा नहीं",
+
+  "search": "खोज",
+  "profile": "प्रोफ़ाइल",
+  "log_out": "लॉग आउट",
+
+  "filter_by": "फ़िल्टर द्वारा",
+  "date": "तारीख",
+  "hide_columns": "कॉलम छुपाएँ",
+  "status": "स्थिति",
+  "reset_filters": "फ़िल्टर रीसेट करें",
+  "add": "जोड़ें",
+
+  "customer": "ग्राहक",
+  "ref_number": "संदर्भ संख्या",
+  "project_reference": "परियोजना संदर्भ",
+  "project_location": "परियोजना स्थान",
+  "action": "क्रिया",
+  "edit": "संपादित करें",
+  "delete": "हटाएँ",
+
+  "language": {
+    "en": "अंग्रेज़ी",
+    "fr": "फ़्रेंच",
+    "es": "स्पेनिश",
+    "de": "जर्मन",
+    "hi": "हिन्दी"
+  }
 }

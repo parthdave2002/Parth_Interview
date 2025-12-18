@@ -43,7 +43,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
       <div className="inline-block min-w-full align-middle">
         <div className="overflow-hidden shadow sm:rounded-lg">
           <div data-testid="table-element" className="relative">          
-            <div className="absolute left-0 top-0 -z-10 h-full w-full rounded-lg drop-shadow-md dark:bg-black min-w-full divide-y divide-gray-200 dark:divide-gray-200" />
+            <div className="absolute left-0 top-0 -z-10 h-full w-full rounded-lg drop-shadow-md dark:bg-gray-100 min-w-full divide-y divide-gray-200 dark:divide-gray-200" />
 
             <Table striped className="min-w-full divide-y divide-gray-200 dark:divide-gray-200 ">
               <TableHead className="bg-gray-50 dark:bg-gray-100">
@@ -86,4 +86,4 @@ const TableComponent: React.FC<TableComponentProps> = ({
   );
 };
 
-export default TableComponent;
+export default React.memo(TableComponent);

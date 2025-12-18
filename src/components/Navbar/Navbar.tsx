@@ -1,21 +1,42 @@
-import { useState, type FC, type PropsWithChildren } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
-import { ChevronDownIcon, DarkThemeToggle, Navbar } from "flowbite-react";
-import { Menu, MenuButton, MenuItem, MenuItems, Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import { useTranslation } from 'react-i18next'
+import {  DarkThemeToggle, Navbar } from "flowbite-react";
+import { Menu, MenuButton, MenuItem, MenuItems, } from "@headlessui/react";
 import { Button, Input } from "reactstrap";
 import { FiMenu, FiBell } from 'react-icons/fi'
 import type { NavbarSidebarLayoutProps } from "../../type/types";
+import { loginUserAction } from "../../store/slice/Auth/login-slice";
+import { useAppDispatch } from "../../store/hooks";
 
-const ExampleNavbar: FC<PropsWithChildren<NavbarSidebarLayoutProps>> = function ({ toggleSidebar, isSidebarOpen }) {
+const ExampleNavbar: React.FC<NavbarSidebarLayoutProps> = function ({ toggleSidebar, isSidebarOpen }) {
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     const navbarMargin = isSidebarOpen ? 'md:ml-64' : 'md:ml-20'
 
-    const Logoutfun = () => {
-      navigate("/login");
-    };
+    const { t, i18n } = useTranslation();
 
-    const languages = ["English", "French", "Spanish", "German"];
-    const [selectedLang, setSelectedLang] = useState("English");
+    const Logoutfun = useCallback(() => {
+      navigate("/login");
+      localStorage.removeItem("token");
+      localStorage.removeItem("userId");
+      dispatch(loginUserAction.loginSliceReset());
+    }, [navigate, dispatch]);
+
+    const languages = useMemo(() => [
+      { code: 'en', label: t('language.en') },
+      { code: 'fr', label: t('language.fr') },
+      { code: 'es', label: t('language.es') },
+      { code: 'de', label: t('language.de') },
+      { code: 'hi', label: t('language.hi') },
+    ], [t]);
+
+    const [selectedLang, setSelectedLang] = useState<string>(i18n.language || 'en');
+
+    const onSelectLang = useCallback((code: string) => {
+      setSelectedLang(code);
+      i18n.changeLanguage(code);
+    }, [i18n]);
 
     const LoginUserimg = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
 
@@ -27,9 +48,8 @@ const ExampleNavbar: FC<PropsWithChildren<NavbarSidebarLayoutProps>> = function 
 
             <div className="flex gap-x-4 ">
               <button className=" p-2 rounded cursor-pointer" onClick={() => toggleSidebar && toggleSidebar()} aria-label="Toggle sidebar"> <FiMenu size={18} />  </button>
-              <div>  <Input type="text" placeholder="Search" className="w-full px-4  py-2 border rounded-full border-gray-100 bg-gray-200 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-indigo-400" />    </div>
+              <div>  <Input type="text" placeholder={t('search')} className="w-full px-4  py-2 border rounded-full border-gray-100 bg-gray-200 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-indigo-400" />    </div>
             </div>
-
             <div className="flex items-center gap-3">
               <button className="p-2 rounded hover:bg-gray-100 relative hidden sm:block">
                 <FiBell className="text-blue-500" size={22} />
@@ -42,17 +62,17 @@ const ExampleNavbar: FC<PropsWithChildren<NavbarSidebarLayoutProps>> = function 
               </div>
       
               <Menu>
-                <MenuButton className="hidden sm:flex items-center px-2 py-1 rounded hover:bg-gray-100 text-sm"> {selectedLang}   </MenuButton>
+                <MenuButton className="hidden sm:flex items-center px-2 py-1 rounded hover:bg-gray-100 text-sm"> {t(`language.${selectedLang}`)}   </MenuButton>
 
                 <MenuItems transition anchor="bottom end" className="mt-2 w-52 origin-top-right rounded-xl border border-white/5 bg-gray-50 p-1 text-sm text-gray-900 shadow transition duration-100 ease-out data-closed:scale-95 data-closed:opacity-0 focus:outline-none mt-5"  >
                   {languages.map((lang) => (
-                    <MenuItem key={lang}>
-                      <button onClick={() => setSelectedLang(lang)} className={`group flex w-full items-center gap-2 rounded-lg px-3 py-2 my-2 
-                        ${selectedLang === lang
+                    <MenuItem key={lang.code}>
+                      <button onClick={() => onSelectLang(lang.code)} className={`group flex w-full items-center gap-2 rounded-lg px-3 py-2 my-2 
+                        ${selectedLang === lang.code
                           ? "bg-gray-200 font-semibold"
                           : ""
                         } data-focus:bg-gray-200`} >
-                        {lang}
+                        {lang.label}
                       </button>
                     </MenuItem>
                   ))}
@@ -68,10 +88,10 @@ const ExampleNavbar: FC<PropsWithChildren<NavbarSidebarLayoutProps>> = function 
 
                 <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg  focus:outline-none">
                   <MenuItem>
-                    <Button className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  min-w-full text-start" > Profile </Button>
+                    <Button className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  min-w-full text-start" > {t('profile')} </Button>
                   </MenuItem>
                   <MenuItem>
-                    <Button onClick={() => { Logoutfun() }} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  min-w-full text-start" > Log out </Button>
+                    <Button onClick={() => { Logoutfun() }} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  min-w-full text-start" > {t('log_out')} </Button>
                   </MenuItem>
                 </MenuItems>
               </Menu>
@@ -82,4 +102,4 @@ const ExampleNavbar: FC<PropsWithChildren<NavbarSidebarLayoutProps>> = function 
     );
   };
 
-export default ExampleNavbar;
+export default React.memo(ExampleNavbar);

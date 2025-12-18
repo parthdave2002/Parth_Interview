@@ -4,7 +4,7 @@ import { Label } from 'flowbite-react'
 import { FormFeedback, Input } from 'reactstrap';
 import type { InputProps } from '../../../type/types';
 
-const Inputbox:FC <InputProps>= ( { label, required, className, id, name, placeholder = "", type = "text", validation, max, disabled}) => {
+const Inputbox:FC <InputProps>= ( { label, required, className, id, name, placeholder = "", type = "text", validation, max, disabled, onChange}) => {
 
   return (
       <div>
@@ -17,14 +17,14 @@ const Inputbox:FC <InputProps>= ( { label, required, className, id, name, placeh
                       className={className ? className : "mt-1 block w-full px-4 py-2 border rounded-lg border-gray-300 bg-gray-200 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-indigo-400"}
                       placeholder= {placeholder}
                       type= {type ?? "text"}
-                      onChange={validation.handleChange}
-                      onBlur={validation.handleBlur}
-                      value={validation.values[name] || ""}
-                      invalid={validation.touched[name] && validation.errors[name] ? true : false}
+                      onChange={onChange ?? validation?.handleChange}
+                      onBlur={validation?.handleBlur}
+                      value={validation?.values?.[name] ?? ""}
+                      invalid={validation?.touched?.[name] && validation?.errors?.[name] ? true : false}
                       max={max}
                       disabled={ disabled ? true : false }
                   />
-                    {validation.touched[name] && validation.errors[name] && 
+                    {validation?.touched?.[name] && validation?.errors?.[name] && 
                       <FormFeedback type="invalid" className="text-red-700 text-sm"> {validation.errors[name]}  </FormFeedback>
                     }
               </div>

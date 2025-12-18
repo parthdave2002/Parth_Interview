@@ -4,5 +4,51 @@
   "projects": "Projects",
   "estimations": "Estimations",
   "login": "Login",
-  "register": "Register"
+  "register": "Register",
+
+  "total_users": "Total Users",
+  "total_orders": "Total Orders",
+  "total_sales": "Total Sales",
+  "total_pending": "Total Pending",
+
+  "change_up_from_yesterday": "{{percent}} Up from yesterday",
+  "change_up_from_past_week": "{{percent}} Up from past week",
+  "change_down_from_yesterday": "{{percent}} Down from yesterday",
+
+  "sales_details": "Sales Details",
+  "filter_today": "Today",
+  "filter_last_7_day": "Last 7 day",
+  "filter_last_month": "Last Month",
+  "filter_last_3_month": "Last 3 Month",
+  "filter_all": "All",
+  "export_pdf": "Export PDF",
+  "export_csv": "Export CSV",
+  "no_data_selected_range": "No data for the selected range",
+
+  "search": "Search",
+  "profile": "Profile",
+  "log_out": "Log out",
+
+  "filter_by": "Filter By",
+  "date": "Date",
+  "hide_columns": "Hide Columns",
+  "status": "Status",
+  "reset_filters": "Reset Filters",
+  "add": "Add",
+
+  "customer": "Customer",
+  "ref_number": "Ref Number",
+  "project_reference": "Project Reference",
+  "project_location": "Project Location",
+  "action": "Action",
+  "edit": "Edit",
+  "delete": "Delete",
+
+  "language": {
+    "en": "English",
+    "fr": "French",
+    "es": "Spanish",
+    "de": "German",
+    "hi": "Hindi"
+  }
 }

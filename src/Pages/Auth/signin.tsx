@@ -93,10 +93,6 @@ const SigninPage: React.FC = () => {
               </label>
             </div>
 
-            {loginState?.message && (
-              <div className="text-sm text-red-600">{loginState.message?.msg || loginState.message}</div>
-            )}
-
             <div>
               <button type="submit"  className="w-full inline-flex justify-center items-center px-4 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white rounded-lg shadow hover:opacity-95 disabled:opacity-60 font-medium">
                 {loginState?.isLoading ? 'Signing in...' : 'Sign In'}
